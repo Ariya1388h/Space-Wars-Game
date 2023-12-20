@@ -14,12 +14,16 @@ pygame.display.set_caption("Space Wars")
 FPS = 60
 clock = pygame.time.Clock()
 
+round_value = 0
+
 #Define classes
 class Game(pygame.sprite.Sprite):
     """A class to control the main game"""
 
     def __init__(self, player, enemy_group, plaser, elaser):
+        global round_value
         self.round_num = 1
+        round_value = self.round_num
         self.score = 0
 
         self.player = player
@@ -200,8 +204,8 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_UP]:
             self.image = pygame.image.load("Assets/Textures/Player/straight.png").convert_alpha()
 
-    def shoot(self, round_num):
-        if len(self.plaser_group) < 3:
+    def shoot(self):
+        if len(self.plaser_group) < 2 + int(round_value):
             self.shoot_sound.play()
             PLaser(self.rect.centerx, self.rect.top, self.plaser_group)
 
@@ -304,7 +308,7 @@ while running:
         #Shoot
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                player.shoot(...)
+                player.shoot()
 
     #Blit the background
     screen.blit(pygame.image.load("Assets/Textures/space.png"), (0,0))
