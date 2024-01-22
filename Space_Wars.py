@@ -162,18 +162,17 @@ class Game(pygame.sprite.Sprite):
                     running = False
     
     def reset(self):
-        self.paus("Final_score: " + str(self.score), "Continue The Game By Pressing 'Enter'")
+        self.pause("Final_score: " + str(self.score), "Continue The Game By Pressing 'Enter'")
 
         self.score = 0
         self.round_num = 1
-        self.layer.lives = 5
+        self.player.lives = 5
 
         self.enemy_group.empty()
         self.elaser_group.empty()
         self.laser_group.empty()
 
         self.new_round()
-
 
 class Player(pygame.sprite.Sprite):
     """A class to control the player"""
@@ -186,7 +185,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WINDOW_WIDTH//2
         self.rect.bottom = WINDOW_HEIGHT-40
 
-        self.lives = 3
+        self.lives = 5
         self.velocity = 30
         self.plaser_group = plaser_group
 
@@ -203,6 +202,11 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load("Assets/Textures/Player/right.png").convert_alpha()
         if keys[pygame.K_UP]:
             self.image = pygame.image.load("Assets/Textures/Player/straight.png").convert_alpha()
+
+        if player.rect.left <= 0:
+            self.rect.left = 0
+        if player.rect.right >= WINDOW_WIDTH:
+            self.rect.right = WINDOW_WIDTH
 
     def shoot(self):
         if len(self.plaser_group) < 2 + int(round_value):
