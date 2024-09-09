@@ -1,1 +1,1 @@
-# space wars game coded in python
+# PyGame Python game called SpaceWars
